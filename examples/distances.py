@@ -3,6 +3,7 @@
 from openset.data.simulated import cluster
 from openset.models import Correlation
 from openset.models import Cosine
+from openset.models import KNearestNeighbors
 from openset.models import LocalOutlierFactor
 from openset.models import Mahalanobis
 from openset.models import Manhattan
@@ -22,6 +23,7 @@ def main():
     models = [
         Correlation,
         Cosine,
+        KNearestNeighbors,
         LocalOutlierFactor,
         Mahalanobis,
         Manhattan,
