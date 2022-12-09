@@ -1,5 +1,7 @@
 # PyOpenSet
 
+![](https://github.com/sdatko/PyOpenSet/workflows/tests/badge.svg)
+
 A Python library for performing outlier detection
 / implementing open-set classification in high-dimensional data.
 
