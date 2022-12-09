@@ -7,6 +7,7 @@ from openset.models import Cosine
 from openset.models import KNearestNeighbors
 from openset.models import LocalOutlierFactor
 from openset.models import Mahalanobis
+from openset.models import MahalanobisSC
 from openset.models import Manhattan
 from openset.models import Minkowski
 from openset.models import MinMaxWindow
@@ -29,6 +30,7 @@ def main():
         KNearestNeighbors,
         LocalOutlierFactor,
         Mahalanobis,
+        MahalanobisSC,
         Manhattan,
         Minkowski,
         MinMaxWindow,

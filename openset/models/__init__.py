@@ -6,6 +6,7 @@ from ..models.cosine import Cosine
 from ..models.knn import KNearestNeighbors
 from ..models.lof import LocalOutlierFactor
 from ..models.mahalanobis import Mahalanobis
+from ..models.mahalanobis import MahalanobisSC
 from ..models.manhattan import Manhattan
 from ..models.minkowski import Minkowski
 from ..models.mmw import MinMaxWindow
@@ -19,6 +20,7 @@ __all__ = [
     'KNearestNeighbors',
     'LocalOutlierFactor',
     'Mahalanobis',
+    'MahalanobisSC',
     'Manhattan',
     'Minkowski',
     'MinMaxWindow',

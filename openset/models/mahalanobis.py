@@ -33,3 +33,32 @@ class Mahalanobis(BaseModel):
                               for vec in X])
 
         return distances
+
+
+class MahalanobisSC(BaseModel):
+    '''Mahalanobis distance with shared covariance matrix.'''
+
+    def fit(self, X: np.ndarray, y: np.ndarray | None = None) -> bool:
+        super().fit(X, y)
+        self.means = dict()
+        self.icov = None
+
+        cov = np.cov(self.X.T)
+
+        if not cov.shape:  # hack for 1-dimensional data
+            cov.shape = (1, 1)
+
+        self.icov = np.linalg.inv(cov)
+
+        for label in self.labels:
+            self.means[label] = self.X[self.y == label].mean(axis=0)
+
+        return True
+
+    def score(self, X: np.ndarray, y: object = None) -> np.ndarray:
+        super().score(X, y)
+
+        distances = np.array([mahalanobis(vec, self.means[y], self.icov)
+                              for vec in X])
+
+        return distances
