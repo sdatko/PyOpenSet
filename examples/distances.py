@@ -1,6 +1,7 @@
 #!/usr/bin/env python3
 
 from openset.data.simulated import cluster
+from openset.models import AngleBasedOutlierFactor
 from openset.models import Correlation
 from openset.models import Cosine
 from openset.models import KNearestNeighbors
@@ -22,6 +23,7 @@ def main():
     outliers = cluster(samples=2, dimension=dimension, location=2)
 
     models = [
+        AngleBasedOutlierFactor,
         Correlation,
         Cosine,
         KNearestNeighbors,
