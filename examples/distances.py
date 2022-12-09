@@ -8,6 +8,7 @@ from openset.models import LocalOutlierFactor
 from openset.models import Mahalanobis
 from openset.models import Manhattan
 from openset.models import Minkowski
+from openset.models import MinMaxWindow
 from openset.models import SEuclidean
 
 
@@ -28,6 +29,7 @@ def main():
         Mahalanobis,
         Manhattan,
         Minkowski,
+        MinMaxWindow,
         SEuclidean,
     ]
 
