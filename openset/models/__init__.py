@@ -7,6 +7,7 @@ from ..models.lof import LocalOutlierFactor
 from ..models.mahalanobis import Mahalanobis
 from ..models.manhattan import Manhattan
 from ..models.minkowski import Minkowski
+from ..models.mmw import MinMaxWindow
 from ..models.seuclidean import SEuclidean
 
 
@@ -18,5 +19,6 @@ __all__ = [
     'Mahalanobis',
     'Manhattan',
     'Minkowski',
+    'MinMaxWindow',
     'SEuclidean',
 ]
