@@ -29,7 +29,13 @@ class AngleBasedOutlierFactor(BaseModel):
             for vec1, vec2 in combinations(self.data[y], 2):
                 vec1 = vec1 - vec
                 vec2 = vec2 - vec
-                values.append(vec1.dot(vec2) / vec1.dot(vec1) / vec2.dot(vec2))
+                norm1 = vec1.dot(vec1)
+                norm2 = vec2.dot(vec2)
+
+                if norm1 == 0 or norm2 == 0:
+                    continue
+
+                values.append(vec1.dot(vec2) / norm1 / norm2)
 
             variances.append(np.var(values, axis=0))
 
