@@ -1,0 +1,45 @@
+#!/usr/bin/env python3
+
+from unittest import TestCase
+
+import numpy as np
+
+from openset.models import SEuclidean
+
+
+class TestSEuclidean(TestCase):
+    def test_fit(self):
+        X = np.array([[0, 0], [0, 4], [2, 0], [2, 4]])
+
+        model = SEuclidean()
+        model.fit(X)
+
+        actual = model.means[None]
+        expected = np.array([1, 2])
+        np.testing.assert_almost_equal(actual, expected)
+
+        actual = model.vars[None]
+        expected = np.array([1, 4])
+        np.testing.assert_almost_equal(actual, expected)
+
+    def test_score(self):
+        X = np.array([[0, 0], [0, 4], [2, 0], [2, 4]])
+
+        model = SEuclidean()
+        model.fit(X)
+
+        actual = model.score(np.array([
+            [0, 0],
+            [2, 2],
+            [1, 3],
+            [3, 1],
+            [3, 3],
+        ]))
+        expected = np.array([
+            np.sqrt(2),
+            1,
+            0.5,
+            np.linalg.norm(np.sqrt(1 / np.array([1, 4])) * np.array([2, 1])),
+            np.linalg.norm(np.sqrt(1 / np.array([1, 4])) * np.array([2, 1])),
+        ])
+        np.testing.assert_almost_equal(actual, expected)
