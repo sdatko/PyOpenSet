@@ -1,9 +1,11 @@
 name: tests
 
-on: [push, pull_request]
+on:
+  - push
+  - pull_request
 
 jobs:
-  pep8:
+  tox:
     runs-on: ubuntu-latest
     container:
       image: python:3.10
