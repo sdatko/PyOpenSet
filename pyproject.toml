@@ -1,0 +1,40 @@
+[build-system]
+requires = ['setuptools', 'setuptools_scm']
+build-backend = 'setuptools.build_meta'
+
+[project]
+name = 'PyOpenSet'
+description = 'A Python library for performing outlier detection.'
+readme = 'README.md'
+requires-python = '>=3.10'
+license = {file = 'LICENSE'}
+keywords = ['open-set', 'outlier detection']
+authors = [
+    {name = 'Szymon Datko', email = 'szymon.datko@pwr.edu.pl'},
+]
+maintainers = [
+    {name = 'Szymon Datko', email = 'szymon.datko@pwr.edu.pl'},
+]
+classifiers = [
+    'Intended Audience :: Developers',
+    'Intended Audience :: Information Technology',
+    'Intended Audience :: Science/Research',
+    'License :: OSI Approved :: MIT License',
+    'Operating System :: OS Independent',
+    'Programming Language :: Python',
+    'Programming Language :: Python :: 3',
+    'Topic :: Scientific/Engineering :: Artificial Intelligence',
+    'Topic :: Scientific/Engineering :: Mathematics',
+    'Topic :: Software Development :: Libraries :: Python Modules',
+]
+dynamic = ['dependencies', 'optional-dependencies', 'version']
+
+[project.urls]
+homepage = 'https://github.com/sdatko/PyOpenSet'
+
+[tool.setuptools.dynamic]
+dependencies = {file = ['requirements.txt']}
+optional-dependencies.test = {file = ['test-requirements.txt']}
+
+[tool.setuptools_scm]
+local_scheme = 'node-and-timestamp'
