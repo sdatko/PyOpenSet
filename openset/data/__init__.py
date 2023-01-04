@@ -1,8 +1,8 @@
 #!/usr/bin/env python3
 
-from ..data.simulated import cluster
+from ..data.generator import ClusterGenerator
 
 
 __all__ = [
-    'cluster',
+    'ClusterGenerator',
 ]

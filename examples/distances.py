@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 
-from openset.data.simulated import cluster
+from openset.data.generator import ClusterGenerator
 from openset.models import AngleBasedOutlierFactor
 from openset.models import Correlation
 from openset.models import Cosine
@@ -14,14 +14,11 @@ from openset.models import MinMaxWindow
 from openset.models import SEuclidean
 
 
-samples = 10
-dimension = 3
-
-
 def main():
-    training = cluster(samples=samples, dimension=dimension, location=0)
-    typicals = cluster(samples=5, dimension=dimension, location=0)
-    outliers = cluster(samples=2, dimension=dimension, location=2)
+    generator = ClusterGenerator()
+    training = generator.gaussian(samples=10, dimension=3, location=0)
+    typicals = generator.gaussian(samples=5, dimension=3, location=0)
+    outliers = generator.gaussian(samples=2, dimension=3, location=2)
 
     models = [
         AngleBasedOutlierFactor,
