@@ -4,6 +4,7 @@ from openset.data.generator import ClusterGenerator
 from openset.models import AngleBasedOutlierFactor
 from openset.models import Correlation
 from openset.models import Cosine
+from openset.models import IntegratedRankWeightedDepth
 from openset.models import KNearestNeighbors
 from openset.models import LocalOutlierFactor
 from openset.models import Mahalanobis
@@ -24,6 +25,7 @@ def main():
         AngleBasedOutlierFactor,
         Correlation,
         Cosine,
+        IntegratedRankWeightedDepth,
         KNearestNeighbors,
         LocalOutlierFactor,
         Mahalanobis,
