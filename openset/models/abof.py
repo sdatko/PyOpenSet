@@ -24,19 +24,18 @@ class AngleBasedOutlierFactor(BaseModel):
         variances = []
 
         for vec in X:
-            values = []
+            angles = []
+            vectors = self.data[y] - vec
 
-            for vec1, vec2 in combinations(self.data[y], 2):
-                vec1 = vec1 - vec
-                vec2 = vec2 - vec
+            for vec1, vec2 in combinations(vectors, 2):
                 norm1 = vec1.dot(vec1)
                 norm2 = vec2.dot(vec2)
 
                 if norm1 == 0 or norm2 == 0:
                     continue
 
-                values.append(vec1.dot(vec2) / norm1 / norm2)
+                angles.append(vec1.dot(vec2) / norm1 / norm2)
 
-            variances.append(np.var(values, axis=0))
+            variances.append(np.var(angles, axis=0))
 
         return np.array(variances)
