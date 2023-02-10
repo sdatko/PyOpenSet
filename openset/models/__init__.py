@@ -3,6 +3,7 @@
 from ..models.abof import AngleBasedOutlierFactor
 from ..models.correlation import Correlation
 from ..models.cosine import Cosine
+from ..models.euclidean import Euclidean
 from ..models.irwd import IntegratedRankWeightedDepth
 from ..models.knn import KNearestNeighbors
 from ..models.lof import LocalOutlierFactor
@@ -18,6 +19,7 @@ __all__ = [
     'AngleBasedOutlierFactor',
     'Correlation',
     'Cosine',
+    'Euclidean',
     'IntegratedRankWeightedDepth',
     'KNearestNeighbors',
     'LocalOutlierFactor',
