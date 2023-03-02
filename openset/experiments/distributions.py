@@ -3,6 +3,7 @@
 import os
 from time import time
 
+import numpy as np
 from pony import orm
 
 from openset.data.generator import ClusterGenerator
@@ -114,6 +115,8 @@ class Generated(BaseExperiment):
     def _get(self, dimension, distance, distribution, model, samples, seed):
         generator = ClusterGenerator()
         generator.reset(seed=seed)
+
+        distance /= np.sqrt(dimension)
 
         match distribution:
             case 'gaussian':
