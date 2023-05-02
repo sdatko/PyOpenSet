@@ -75,6 +75,86 @@ class ClusterGenerator(object):
 
         return self.rng.normal(location, scale, size=shape)
 
+    def mvn(self,
+            samples: int = 10,
+            dimension: int = 1,
+            location: float = 0.0,
+            scale: float = 1.0,
+            n_features: float = 1.0,
+            n_correlated: float = 0.0,
+            covariance: float = 0.5) -> np.ndarray:
+        '''Generates a data cluster involving Multivariate Normal distribution.
+
+        Similar to the Gaussian distribution, however it additionally allows to
+        specify the part of features that are moved to location and correlated,
+        as well as the correlation strength (i.e. covariance values in matrix).
+
+        Parameters
+        ----------
+        samples : int
+            Number of samples in the generated cluster (default: 10).
+        dimension : int
+            Number of elements in each data vector (default: 1).
+        location : float
+            The mean value of normal distribution (default: 0.0).
+        scale : float
+            The standard deviation of normal distribution (default: 1.0).
+        n_features : float
+            Part of features that are moved to location (default: 1.0).
+            E.g. for dimension=10, location=5.0, n_features=0.75:
+                [5. 5. 5. 5. 5. 5. 5. 0. 0. 0.]
+        n_correlated : float
+            Part of features that are correlated (default: 0.0).
+        covariance : float
+            The covariance value between the correlated values within
+            the covariance matrix (default: 0.5).
+            E.g. for dimension=10, n_correlated=0.5, covariance=0.25:
+                [[1.   0.25 0.25 0.25 0.25 0.   0.   0.   0.   0.  ]
+                 [0.25 1.   0.25 0.25 0.25 0.   0.   0.   0.   0.  ]
+                 [0.25 0.25 1.   0.25 0.25 0.   0.   0.   0.   0.  ]
+                 [0.25 0.25 0.25 1.   0.25 0.   0.   0.   0.   0.  ]
+                 [0.25 0.25 0.25 0.25 1.   0.   0.   0.   0.   0.  ]
+                 [0.   0.   0.   0.   0.   1.   0.   0.   0.   0.  ]
+                 [0.   0.   0.   0.   0.   0.   1.   0.   0.   0.  ]
+                 [0.   0.   0.   0.   0.   0.   0.   1.   0.   0.  ]
+                 [0.   0.   0.   0.   0.   0.   0.   0.   1.   0.  ]
+                 [0.   0.   0.   0.   0.   0.   0.   0.   0.   1.  ]]
+
+        Returns
+        -------
+        cluster : np.ndarray
+            Generated array of data vectors.
+
+        Examples
+        --------
+        >>> generator = ClusterGenerator()
+        >>> generator.reset(42, legacy=True)  # For tests predictability
+        >>> generator.mvn(samples=2, dimension=3)
+        array([[ 0.49671415, -0.1382643 ,  0.64768854],
+               [ 1.52302986, -0.23415337, -0.23413696]])
+        >>> generator.mvn(samples=4, dimension=2, location=3.0, scale=5.0)
+        array([[ 6.53122721,  4.71603622],
+               [ 1.95022336,  4.21320114],
+               [ 1.96376654,  1.95859661],
+               [ 3.54104409, -1.27822469]])
+        >>> generator.mvn(samples=3, dimension=4, location=5.0, n_features=0.5)
+        array([[ 3.27508217,  4.43771247, -1.01283112,  0.31424733],
+               [ 4.09197592,  3.5876963 ,  1.46564877, -0.2257763 ],
+               [ 5.0675282 ,  3.57525181, -0.54438272,  0.11092259]])
+        '''
+
+        means = np.zeros(shape=(dimension,))
+        means[:int(n_features * dimension)] = location
+
+        cov = scale * np.identity(dimension)
+        for row in range(int(n_correlated * dimension)):
+            for col in range(int(n_correlated * dimension)):
+                if row == col:
+                    continue
+                cov[row, col] = covariance
+
+        return self.rng.multivariate_normal(means, cov, size=samples)
+
     def triangular(self,
                    samples: int = 10,
                    dimension: int = 1,

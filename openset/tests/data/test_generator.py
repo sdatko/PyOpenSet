@@ -47,6 +47,22 @@ class TestClusterGenerator(TestCase):
 
         np.testing.assert_almost_equal(actual, expected)
 
+    def test_mvn(self):
+        generator = ClusterGenerator()
+        generator.reset(seed=42, legacy=True)  # Compatibility guarantee
+
+        actual = generator.mvn(samples=5, dimension=4, location=3.0, scale=2.0,
+                               n_features=0.5, n_correlated=0.5, covariance=1.)
+        expected = np.array([
+            [+1.31470715, +3.46859663, +0.91596991, -0.19553525],
+            [+2.74411984, +3.82943645, +2.23334418, -0.33111966],
+            [+3.90430701, +3.24566568, -0.65537159, +0.76729577],
+            [+3.10125527, +2.30606062, -2.43940219, -2.70578687],
+            [+5.23910924, +3.24181020, -1.28413996, +0.44441284],
+        ])
+
+        np.testing.assert_almost_equal(actual, expected)
+
     def test_traingular(self):
         generator = ClusterGenerator()
         generator.reset(seed=42, legacy=True)  # Compatibility guarantee
