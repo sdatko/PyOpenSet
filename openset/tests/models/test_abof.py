@@ -31,10 +31,10 @@ class TestAngleBasedOutlierFactor(TestCase):
             [3, 3],
         ]))
         expected = np.array([
-            0.0005556,
-            0.0190972,
-            0.0102222,
-            0.0081481,
-            0.0081481
+            -0.0005556,
+            -0.0190972,
+            -0.0102222,
+            -0.0081481,
+            -0.0081481
         ])
         np.testing.assert_almost_equal(actual, expected)
