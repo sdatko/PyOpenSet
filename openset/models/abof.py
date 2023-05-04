@@ -38,4 +38,8 @@ class AngleBasedOutlierFactor(BaseModel):
 
             variances.append(np.var(angles, axis=0))
 
-        return np.array(variances)
+        # NOTE(sdatko): For convenience, we want outliers to have higher
+        #               numerical values than inliers, but this function
+        #               does the opposite, hence we multiply the result
+        #               by -1 to just invert the axis
+        return -1 * np.array(variances)

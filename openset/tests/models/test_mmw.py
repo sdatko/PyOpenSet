@@ -38,12 +38,12 @@ class TestMinMaxWindow(TestCase):
             [3, 5],
         ]))
         expected = np.array([
-            1,
-            1,
-            1,
-            0.5,
-            0.5,
-            0.5,
             0,
+            0,
+            0,
+            0.5,
+            0.5,
+            0.5,
+            1,
         ])
         np.testing.assert_almost_equal(actual, expected)

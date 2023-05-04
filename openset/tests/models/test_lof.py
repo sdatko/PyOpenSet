@@ -8,6 +8,10 @@ from openset.models import LocalOutlierFactor
 
 
 class TestLocalOutlierFactor(TestCase):
+    def test_repr(self):
+        model = LocalOutlierFactor(15)
+        self.assertEqual(str(model), 'LocalOutlierFactor(15)')
+
     def test_fit(self):
         X = np.array([[0, 0], [0, 1], [0, 2], [0, 3], [0, 4],
                       [1, 0], [1, 1], [1, 2], [1, 3], [1, 4],

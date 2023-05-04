@@ -8,6 +8,10 @@ from openset.models import KNearestNeighbors
 
 
 class TestKNearestNeighbors(TestCase):
+    def test_repr(self):
+        model = KNearestNeighbors(15)
+        self.assertEqual(str(model), 'KNearestNeighbors(15)')
+
     def test_fit(self):
         X = np.array([[0, 0], [0, 1], [0, 2], [0, 3], [0, 4],
                       [1, 0], [1, 1], [1, 2], [1, 3], [1, 4],
@@ -24,7 +28,7 @@ class TestKNearestNeighbors(TestCase):
         self.assertEqual(actual, expected)
 
         actual = model.classifiers[label].n_neighbors
-        expected = 5
+        expected = 10
         self.assertEqual(actual, expected)
 
         actual = model.classifiers[label].mode
@@ -47,10 +51,10 @@ class TestKNearestNeighbors(TestCase):
             [3, 3],
         ]))
         expected = np.array([
-            1.0828427,
-            0.8828427,
-            0.8,
-            1.612899,
-            1.612899,
+            1.7714777,
+            1.4064495,
+            1.1656854,
+            2.1527336,
+            2.1527336,
         ])
         np.testing.assert_almost_equal(actual, expected)
