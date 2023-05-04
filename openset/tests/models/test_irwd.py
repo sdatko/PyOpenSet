@@ -45,11 +45,11 @@ class TestIntegratedRankWeightedDepth(TestCase):
             [6, 0],
         ]))
         expected = np.array([
-            0.1875,
-            0.4375,
-            0.4375,
-            0.375,
-            0.3125,
-            0.0625,
+            -0.1875,
+            -0.4375,
+            -0.4375,
+            -0.375,
+            -0.3125,
+            -0.0625,
         ])
         np.testing.assert_almost_equal(actual, expected)

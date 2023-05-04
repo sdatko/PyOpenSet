@@ -26,4 +26,7 @@ class MinMaxWindow(BaseModel):
         distances = np.array([vec.sum() / vec.size
                               for vec in in_ranges])
 
-        return distances
+        # NOTE(sdatko): For convenience, we want outliers to have higher
+        #               numerical values than inliers, but this function
+        #               does the opposite, hence we invert the axis here
+        return 1 - distances
