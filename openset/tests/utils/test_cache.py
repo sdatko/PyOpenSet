@@ -83,7 +83,7 @@ class TestSQLCache(TestCase):
 
         self.assertEqual(mock_noop.call_count, 11)
         with orm.db_session():
-            self.assertEqual(orm.count(row.id for row in cache.Cache), 11)
+            self.assertEqual(cache.Cache.select().count(), 11)
 
     @patch('openset.tests.utils.test_cache._noop')
     def test_clear(self, mock_noop):
@@ -103,11 +103,11 @@ class TestSQLCache(TestCase):
 
         self.assertEqual(mock_noop.call_count, 11)
         with orm.db_session():
-            self.assertEqual(orm.count(row.id for row in cache.Cache), 11)
+            self.assertEqual(cache.Cache.select().count(), 11)
 
         cache.clear()
         with orm.db_session():
-            self.assertEqual(orm.count(row.id for row in cache.Cache), 0)
+            self.assertEqual(cache.Cache.select().count(), 0)
 
         fibonacci(10)
         fibonacci(10)
@@ -115,7 +115,7 @@ class TestSQLCache(TestCase):
 
         self.assertEqual(mock_noop.call_count, 22)
         with orm.db_session():
-            self.assertEqual(orm.count(row.id for row in cache.Cache), 11)
+            self.assertEqual(cache.Cache.select().count(), 11)
 
     @patch('openset.utils.cache.os.path.join')
     def test_default_filename(self, mock_os_path_join):
