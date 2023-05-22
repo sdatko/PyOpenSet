@@ -96,19 +96,19 @@ class BoundingBoxes(BaseExperiment):
         time1 = time()
 
         match distribution:
-            case 'correlated25':
+            case 'correlated2525':
                 set1 = generator.mvn(samples, dimension,
                                      n_correlated=0.25, covariance=0.25)
                 set2 = generator.mvn(samples, dimension,
                                      n_correlated=0.25, covariance=0.25)
 
-            case 'correlated50':
+            case 'correlated5050':
                 set1 = generator.mvn(samples, dimension,
                                      n_correlated=0.5, covariance=0.5)
                 set2 = generator.mvn(samples, dimension,
                                      n_correlated=0.5, covariance=0.5)
 
-            case 'correlated75':
+            case 'correlated7575':
                 set1 = generator.mvn(samples, dimension,
                                      n_correlated=0.75, covariance=0.75)
                 set2 = generator.mvn(samples, dimension,

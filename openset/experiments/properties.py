@@ -1,5 +1,6 @@
 #!/usr/bin/env python3
 
+from decimal import Decimal
 import os
 from time import time
 
@@ -30,8 +31,8 @@ class MVNEstimation(BaseExperiment):
         # input
         dimension = orm.Required(int)
         samples = orm.Required(int)
-        n_correlated = orm.Required(float)
-        covariance = orm.Required(float)
+        n_correlated = orm.Required(Decimal)
+        covariance = orm.Required(Decimal)
         seed = orm.Required(int)
 
         # output
@@ -42,7 +43,7 @@ class MVNEstimation(BaseExperiment):
         time = orm.Required(float)
 
         # index
-        orm.composite_index(dimension, samples, seed)
+        orm.composite_index(dimension, samples, n_correlated, covariance, seed)
 
     @classmethod
     def setup_db(cls):
