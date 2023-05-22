@@ -92,8 +92,9 @@ class TestBoundingBoxes(TestCase):
     def test_get(self):
         experiment = BoundingBoxes()
 
-        for distribution in ('correlated25', 'correlated50', 'correlated75',
-                             'gaussian', 'triangular', 'uniform'):
+        for distribution in ('correlated2525', 'gaussian',
+                             'correlated5050', 'triangular',
+                             'correlated7575', 'uniform'):
             result = experiment.get(
                 dimension=10,
                 distribution=distribution,
