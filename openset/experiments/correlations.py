@@ -1,5 +1,6 @@
 #!/usr/bin/env python3
 
+from decimal import Decimal
 import os
 from time import time
 
@@ -41,9 +42,9 @@ class Correlations(BaseExperiment):
         distance = orm.Required(int)
         model = orm.Required(str)
         seed = orm.Required(int)
-        n_features = orm.Required(float)
-        n_correlated = orm.Required(float)
-        covariance = orm.Required(float)
+        n_features = orm.Required(Decimal)
+        n_correlated = orm.Required(Decimal)
+        covariance = orm.Required(Decimal)
         outliers_correlated = orm.Required(bool)
 
         # output
@@ -54,7 +55,9 @@ class Correlations(BaseExperiment):
         time_score = orm.Required(float)
 
         # index
-        orm.composite_index(distance, model, seed, outliers_correlated)
+        orm.composite_index(distance, model, seed,
+                            n_features, n_correlated, covariance,
+                            outliers_correlated)
 
     @classmethod
     def setup_db(cls):
@@ -79,6 +82,7 @@ class Correlations(BaseExperiment):
                n_features, n_correlated, covariance, outliers_correlated):
         # Try cache
         result = self.Cache.get(
+            distance=distance,
             model=str(model),
             seed=seed,
             n_features=n_features,
