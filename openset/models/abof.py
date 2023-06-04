@@ -111,10 +111,10 @@ class FastAngleBasedOutlierFactor(BaseModel):
         for vec in X:
             neighbors = self.tree[y].query((vec, ),
                                            k=self.n_neighbors,
-                                           return_distance=False)
+                                           return_distance=False)[0]
 
             angles = []
-            vectors = self.data[y][*neighbors] - vec
+            vectors = self.data[y][neighbors] - vec
 
             for vec1, vec2 in combinations(vectors, 2):
                 norm1_squared = vec1.dot(vec1)
@@ -161,10 +161,10 @@ class FastAngleBasedOutlierFactor2(BaseModel):
         for vec in X:
             neighbors = self.tree[y].query((vec, ),
                                            k=self.n_neighbors,
-                                           return_distance=False)
+                                           return_distance=False)[0]
 
             angles = []
-            vectors = self.data[y][*neighbors] - vec
+            vectors = self.data[y][neighbors] - vec
 
             for vec1, vec2 in combinations(vectors, 2):
                 norm1 = np.sqrt(vec1.dot(vec1))
