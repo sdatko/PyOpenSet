@@ -63,6 +63,28 @@ class TestRunner(TestCase):
 
     @patch('openset.utils.runner.tqdm')
     @patch('openset.utils.runner.Pool')
+    def test_run_with_handler(self, mock_pool, mock_tqdm):
+        mock_pool_instance = mock_pool.return_value.__enter__.return_value
+        mock_pool_instance.imap_unordered.return_value = (1, 4, 9, 16)
+        mock_tqdm.return_value = (1, 4, 9, 16)
+
+        runner = Runner()
+
+        function = MagicMock()
+        handler = MagicMock()
+        arguments = (1, 2, 3, 4)
+
+        runner.run(function, arguments, handler)
+
+        mock_pool_instance.imap_unordered.assert_called_once_with(
+            func=function,
+            iterable=arguments
+        )
+        mock_tqdm.assert_called_once_with((1, 4, 9, 16), total=4)
+        self.assertEqual(handler.call_count, 4)
+
+    @patch('openset.utils.runner.tqdm')
+    @patch('openset.utils.runner.Pool')
     def test_run_unpack(self, mock_pool, mock_tqdm):
         mock_pool_instance = mock_pool.return_value.__enter__.return_value
         mock_pool_instance.imap_unordered.return_value = [1, 2, 3]
@@ -80,15 +102,42 @@ class TestRunner(TestCase):
         )
         mock_tqdm.assert_called_once_with([1, 2, 3], total=3)
 
-        actual = runner.func
+        actual = runner.function
         expected = function
         self.assertEqual(actual, expected)
 
+    def test_run_without_function(self):
+        runner = Runner()
+
+        with self.assertRaises(ValueError):
+            runner.run()
+
+    def test_run_without_arguments(self):
+        runner = Runner()
+
+        function = MagicMock()
+        runner.set_function(function)
+
+        with self.assertRaises(ValueError):
+            runner.run()
+
+    def test_set_arguments(self):
+        runner = Runner()
+
+        runner.set_arguments('string')
+        self.assertEqual(runner.arguments, 'string')
+
+        runner.set_arguments([1, 2, 3, 4])
+        self.assertEqual(runner.arguments, [1, 2, 3, 4])
+
+        with self.assertRaises(TypeError):
+            runner.set_arguments(42)
+
     def test_starmap(self):
         runner = Runner(4)
-        runner.func = MagicMock()
+        runner.function = MagicMock()
 
         args = (1, 2, 3, 4, 5)
         runner._starmap(args)
 
-        runner.func.assert_called_with(1, 2, 3, 4, 5)
+        runner.function.assert_called_with(1, 2, 3, 4, 5)

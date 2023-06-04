@@ -5,22 +5,45 @@ from time import sleep
 from openset.utils.runner import Runner
 
 
-def function1(args):
+def multiply_v1(args):
     sleep(1)
-    print(args[0] * args[1])
+    return args[0], args[1], args[0] * args[1]
 
 
-def function2(arg1, arg2):
+def multiply_v2(x, y):
     sleep(1)
-    print(arg1 * arg2)
+    return x, y, x * y
+
+
+def display(result):
+    x, y, x_times_y = result
+    print(f'{x} * {y} = {x_times_y}')
 
 
 def main():
-    arguments = tuple((x, x ** 2) for x in range(12))
+    arguments = (
+        (2, 6),
+        (2, 7),
+        (2, 8),
+        (3, 9),
+        (3, 6),
+        (3, 7),
+        (4, 8),
+        (4, 9),
+        (4, 6),
+        (5, 7),
+        (5, 8),
+        (5, 9),
+    )
 
     runner = Runner(4)
-    runner.run(function1, arguments)
-    runner.run(function2, arguments, unpack=True)
+    runner.run(multiply_v1, arguments, display, unpack=False)
+
+    runner = Runner(4)
+    runner.set_function(multiply_v2)
+    runner.set_arguments(arguments)
+    runner.set_handler(display)
+    runner.run(unpack=True)
 
 
 if __name__ == '__main__':
