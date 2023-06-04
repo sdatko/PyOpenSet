@@ -14,7 +14,8 @@ from ..models.mahalanobis import Mahalanobis
 from ..models.mahalanobis import MahalanobisSC
 from ..models.manhattan import Manhattan
 from ..models.minkowski import Minkowski
-from ..models.mmw import MinMaxWindow
+from ..models.minmax import MinMaxOutFactor
+from ..models.minmax import MinMaxOutScore
 from ..models.seuclidean import SEuclidean
 
 
@@ -33,6 +34,7 @@ __all__ = [
     'MahalanobisSC',
     'Manhattan',
     'Minkowski',
-    'MinMaxWindow',
+    'MinMaxOutFactor',
+    'MinMaxOutScore',
     'SEuclidean',
 ]
