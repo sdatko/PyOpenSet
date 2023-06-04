@@ -15,7 +15,8 @@ from openset.models import Mahalanobis
 from openset.models import MahalanobisSC
 from openset.models import Manhattan
 from openset.models import Minkowski
-from openset.models import MinMaxWindow
+from openset.models import MinMaxOutFactor
+from openset.models import MinMaxOutScore
 from openset.models import SEuclidean
 
 
@@ -40,7 +41,8 @@ def main():
         MahalanobisSC,
         Manhattan,
         Minkowski,
-        MinMaxWindow,
+        MinMaxOutFactor,
+        MinMaxOutScore,
         SEuclidean,
     ]
 
