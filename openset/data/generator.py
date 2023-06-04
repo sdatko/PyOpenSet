@@ -146,12 +146,10 @@ class ClusterGenerator(object):
         means = np.zeros(shape=(dimension,))
         means[:int(n_features * dimension)] = location
 
-        cov = scale * np.identity(dimension)
-        for row in range(int(n_correlated * dimension)):
-            for col in range(int(n_correlated * dimension)):
-                if row == col:
-                    continue
-                cov[row, col] = covariance
+        cov = np.zeros(shape=(dimension, dimension))
+        index = int(n_correlated * dimension)
+        cov[:index, :index] = covariance
+        np.fill_diagonal(cov, scale)
 
         return self.rng.multivariate_normal(means, cov, size=samples)
 
