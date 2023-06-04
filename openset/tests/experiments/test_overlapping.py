@@ -110,3 +110,17 @@ class TestBoundingBoxes(TestCase):
             actual = len(result)
             expected = 4
             self.assertEqual(actual, expected)
+
+    def test_get_disjoint_sets(self):
+        experiment = BoundingBoxes()
+
+        result = experiment.get(
+            dimension=10,
+            distribution='uniform',
+            samples=3,
+            seed=42
+        )
+
+        self.assertEqual(result[0], float(-1e999))
+        self.assertEqual(result[1], 0)
+        self.assertEqual(result[2], 0)
