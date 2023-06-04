@@ -141,8 +141,13 @@ class BoundingBoxes(BaseExperiment):
         #       i.e. -3 means the value is equal to 10^-3, so 0.001.
         volume1 = np.sum(np.log10(np.subtract(maxes1, mins1)))
         volume2 = np.sum(np.log10(np.subtract(maxes2, mins2)))
-        common_volume = np.sum(np.log10(np.subtract(common_maxes,
-                                                    common_mins)))
+
+        common_diffs = np.subtract(common_maxes, common_mins)
+
+        if np.all(common_diffs >= 0):
+            common_volume = np.sum(np.log10(common_diffs))
+        else:  # boxes do not overlap
+            common_volume = float(-1e999)
 
         factor1 = 100 * 10**(common_volume - volume1)
         factor2 = 100 * 10**(common_volume - volume2)
