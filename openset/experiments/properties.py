@@ -115,12 +115,10 @@ class MVNEstimation(BaseExperiment):
         cov = np.cov(data.T)
 
         expected_means = np.zeros(shape=(dimension,))
-        expected_cov = np.identity(dimension)
-        for row in range(int(n_correlated * dimension)):
-            for col in range(int(n_correlated * dimension)):
-                if row == col:
-                    continue
-                expected_cov[row, col] = covariance
+        expected_cov = np.zeros(shape=(dimension, dimension))
+        index = int(n_correlated * dimension)
+        expected_cov[:index, :index] = covariance
+        np.fill_diagonal(expected_cov, 1.0)
 
         delta_means = means - expected_means
         delta_cov = cov - expected_cov
