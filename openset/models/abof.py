@@ -29,13 +29,13 @@ class AngleBasedOutlierFactor(BaseModel):
             vectors = self.data[y] - vec
 
             for vec1, vec2 in combinations(vectors, 2):
-                norm1 = vec1.dot(vec1)
-                norm2 = vec2.dot(vec2)
+                norm1_squared = vec1.dot(vec1)
+                norm2_squared = vec2.dot(vec2)
 
-                if norm1 == 0 or norm2 == 0:
+                if norm1_squared == 0 or norm2_squared == 0:
                     continue
 
-                angles.append(vec1.dot(vec2) / norm1 / norm2)
+                angles.append(vec1.dot(vec2) / norm1_squared / norm2_squared)
 
             variances.append(np.var(angles, axis=0))
 
@@ -79,13 +79,13 @@ class FastAngleBasedOutlierFactor(BaseModel):
             vectors = self.data[y][*neighbors] - vec
 
             for vec1, vec2 in combinations(vectors, 2):
-                norm1 = vec1.dot(vec1)
-                norm2 = vec2.dot(vec2)
+                norm1_squared = vec1.dot(vec1)
+                norm2_squared = vec2.dot(vec2)
 
-                if norm1 == 0 or norm2 == 0:
+                if norm1_squared == 0 or norm2_squared == 0:
                     continue
 
-                angles.append(vec1.dot(vec2) / norm1 / norm2)
+                angles.append(vec1.dot(vec2) / norm1_squared / norm2_squared)
 
             variances.append(np.var(angles, axis=0))
 
