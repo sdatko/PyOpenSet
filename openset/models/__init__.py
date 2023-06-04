@@ -1,7 +1,9 @@
 #!/usr/bin/env python3
 
 from ..models.abof import AngleBasedOutlierFactor
+from ..models.abof import AngleBasedOutlierFactor2
 from ..models.abof import FastAngleBasedOutlierFactor
+from ..models.abof import FastAngleBasedOutlierFactor2
 from ..models.correlation import Correlation
 from ..models.cosine import Cosine
 from ..models.euclidean import Euclidean
@@ -18,10 +20,12 @@ from ..models.seuclidean import SEuclidean
 
 __all__ = [
     'AngleBasedOutlierFactor',
+    'AngleBasedOutlierFactor2',
     'Correlation',
     'Cosine',
     'Euclidean',
     'FastAngleBasedOutlierFactor',
+    'FastAngleBasedOutlierFactor2',
     'IntegratedRankWeightedDepth',
     'KNearestNeighbors',
     'LocalOutlierFactor',
