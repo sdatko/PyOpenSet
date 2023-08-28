@@ -22,32 +22,36 @@ from openset.models import SEuclidean
 
 def main():
     generator = ClusterGenerator()
-    training = generator.gaussian(samples=10, dimension=3, location=0)
+    training = generator.gaussian(samples=100, dimension=3, location=0)
     typicals = generator.gaussian(samples=5, dimension=3, location=0)
     outliers = generator.gaussian(samples=2, dimension=3, location=2)
 
     models = [
-        AngleBasedOutlierFactor,
-        AngleBasedOutlierFactor2,
-        Correlation,
-        Cosine,
-        Euclidean,
-        FastAngleBasedOutlierFactor,
-        FastAngleBasedOutlierFactor2,
-        IntegratedRankWeightedDepth,
-        KNearestNeighbors,
-        LocalOutlierFactor,
-        Mahalanobis,
-        MahalanobisSC,
-        Manhattan,
-        Minkowski,
-        MinMaxOutFactor,
-        MinMaxOutScore,
-        SEuclidean,
+        AngleBasedOutlierFactor(),
+        AngleBasedOutlierFactor2(),
+        Correlation(),
+        Cosine(),
+        Euclidean(),
+        FastAngleBasedOutlierFactor(),
+        FastAngleBasedOutlierFactor(20),
+        FastAngleBasedOutlierFactor2(),
+        FastAngleBasedOutlierFactor2(20),
+        IntegratedRankWeightedDepth(),
+        KNearestNeighbors(),
+        KNearestNeighbors(20),
+        LocalOutlierFactor(),
+        LocalOutlierFactor(20),
+        Mahalanobis(),
+        MahalanobisSC(),
+        Manhattan(),
+        Minkowski(),
+        Minkowski(3),
+        MinMaxOutFactor(),
+        MinMaxOutScore(),
+        SEuclidean(),
     ]
 
-    for model_class in models:
-        model = model_class()
+    for model in models:
         model.fit(training)
         known = model.score(typicals)
         unknown = model.score(outliers)
