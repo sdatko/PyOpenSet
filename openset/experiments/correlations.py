@@ -29,8 +29,7 @@ class Correlations(BaseExperiment):
     and scoring times are also recorded.
 
     The additional parameters include the generator seed, a number of features
-    that are shifted by the distance, a number of features that are correlated
-    and the correlation strength (covariance value).
+    that are correlated and the correlation strength (covariance value).
     '''
 
     db = orm.Database()
@@ -42,7 +41,6 @@ class Correlations(BaseExperiment):
         distance = orm.Required(int)
         model = orm.Required(str)
         seed = orm.Required(int)
-        n_features = orm.Required(Decimal)
         n_correlated = orm.Required(Decimal)
         covariance = orm.Required(Decimal)
         outliers_correlated = orm.Required(bool)
@@ -56,7 +54,7 @@ class Correlations(BaseExperiment):
 
         # index
         orm.composite_index(distance, model, seed,
-                            n_features, n_correlated, covariance,
+                            n_correlated, covariance,
                             outliers_correlated)
 
     @classmethod
@@ -79,13 +77,12 @@ class Correlations(BaseExperiment):
 
     @orm.db_session()
     def _cache(self, distance, model, seed,
-               n_features, n_correlated, covariance, outliers_correlated):
+               n_correlated, covariance, outliers_correlated):
         # Try cache
         result = self.Cache.get(
             distance=distance,
             model=str(model),
             seed=seed,
-            n_features=n_features,
             n_correlated=n_correlated,
             covariance=covariance,
             outliers_correlated=outliers_correlated,
@@ -95,7 +92,7 @@ class Correlations(BaseExperiment):
             # Compute result
             train, known, unknown, time_fit, time_score = self._get(
                 distance, model, seed,
-                n_features, n_correlated, covariance, outliers_correlated,
+                n_correlated, covariance, outliers_correlated,
             )
 
             # Save in cache
@@ -103,7 +100,6 @@ class Correlations(BaseExperiment):
                 distance=distance,
                 model=str(model),
                 seed=seed,
-                n_features=n_features,
                 n_correlated=n_correlated,
                 covariance=covariance,
                 outliers_correlated=outliers_correlated,
@@ -121,14 +117,11 @@ class Correlations(BaseExperiment):
         )
 
     def _get(self, distance, model, seed,
-             n_features, n_correlated, covariance, outliers_correlated):
+             n_correlated, covariance, outliers_correlated):
         generator = ClusterGenerator()
         generator.reset(seed=seed)
 
-        if n_features == 0.0:
-            distance = 0.0
-        else:
-            distance /= np.sqrt(int(n_features * DIMENSION))
+        distance /= np.sqrt(DIMENSION)
 
         training = generator.mvn(TRAINING_SET_SIZE, DIMENSION,
                                  n_correlated=n_correlated,
@@ -140,13 +133,11 @@ class Correlations(BaseExperiment):
         if outliers_correlated:
             outliers = generator.mvn(TESTING_SET_SIZE, DIMENSION,
                                      location=distance,
-                                     n_features=n_features,
                                      n_correlated=n_correlated,
                                      covariance=covariance)
         else:
             outliers = generator.mvn(TESTING_SET_SIZE, DIMENSION,
-                                     location=distance,
-                                     n_features=n_features)
+                                     location=distance)
 
         time1 = time()
 
