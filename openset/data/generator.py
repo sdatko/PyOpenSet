@@ -1,5 +1,6 @@
 #!/usr/bin/env python3
 
+from collections.abc import Iterable
 import os
 
 import numpy as np
@@ -79,7 +80,7 @@ class ClusterGenerator(object):
             samples: int = 10,
             dimension: int = 1,
             location: float = 0.0,
-            scale: float = 1.0,
+            scale: float | Iterable[float] = 1.0,
             n_features: float = 1.0,
             n_correlated: float = 0.0,
             covariance: float = 0.5) -> np.ndarray:
@@ -97,7 +98,7 @@ class ClusterGenerator(object):
             Number of elements in each data vector (default: 1).
         location : float
             The mean value of normal distribution (default: 0.0).
-        scale : float
+        scale : float or Iterable[float]
             The standard deviation of normal distribution (default: 1.0).
         n_features : float
             Part of features that are moved to location (default: 1.0).
@@ -141,6 +142,10 @@ class ClusterGenerator(object):
         array([[ 3.27508217,  4.43771247, -1.01283112,  0.31424733],
                [ 4.09197592,  3.5876963 ,  1.46564877, -0.2257763 ],
                [ 5.0675282 ,  3.57525181, -0.54438272,  0.11092259]])
+        >>> generator.mvn(samples=3, dimension=4, scale=[1, 10, 5, 20])
+        array([[-0.29169375,  1.18806145, -1.34306894, -5.14739976],
+               [-1.05771093,  5.85741792, -0.03018071, -2.69091377],
+               [-1.95967012, -3.8606466 ,  0.4670332 ,  3.67853268]])
         '''
 
         means = np.zeros(shape=(dimension,))
