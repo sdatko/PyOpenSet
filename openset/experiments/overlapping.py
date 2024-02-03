@@ -96,19 +96,55 @@ class BoundingBoxes(BaseExperiment):
         time1 = time()
 
         match distribution:
-            case 'correlated2525':
+            case 'correlated-25-25':
                 set1 = generator.mvn(samples, dimension,
                                      n_correlated=0.25, covariance=0.25)
                 set2 = generator.mvn(samples, dimension,
                                      n_correlated=0.25, covariance=0.25)
 
-            case 'correlated5050':
+            case 'correlated-25-50':
                 set1 = generator.mvn(samples, dimension,
-                                     n_correlated=0.5, covariance=0.5)
+                                     n_correlated=0.25, covariance=0.50)
                 set2 = generator.mvn(samples, dimension,
-                                     n_correlated=0.5, covariance=0.5)
+                                     n_correlated=0.25, covariance=0.50)
 
-            case 'correlated7575':
+            case 'correlated-25-75':
+                set1 = generator.mvn(samples, dimension,
+                                     n_correlated=0.25, covariance=0.75)
+                set2 = generator.mvn(samples, dimension,
+                                     n_correlated=0.25, covariance=0.75)
+
+            case 'correlated-50-25':
+                set1 = generator.mvn(samples, dimension,
+                                     n_correlated=0.50, covariance=0.25)
+                set2 = generator.mvn(samples, dimension,
+                                     n_correlated=0.50, covariance=0.25)
+
+            case 'correlated-50-50':
+                set1 = generator.mvn(samples, dimension,
+                                     n_correlated=0.50, covariance=0.50)
+                set2 = generator.mvn(samples, dimension,
+                                     n_correlated=0.50, covariance=0.50)
+
+            case 'correlated-50-75':
+                set1 = generator.mvn(samples, dimension,
+                                     n_correlated=0.50, covariance=0.75)
+                set2 = generator.mvn(samples, dimension,
+                                     n_correlated=0.50, covariance=0.75)
+
+            case 'correlated-75-25':
+                set1 = generator.mvn(samples, dimension,
+                                     n_correlated=0.75, covariance=0.25)
+                set2 = generator.mvn(samples, dimension,
+                                     n_correlated=0.75, covariance=0.25)
+
+            case 'correlated-75-50':
+                set1 = generator.mvn(samples, dimension,
+                                     n_correlated=0.75, covariance=0.50)
+                set2 = generator.mvn(samples, dimension,
+                                     n_correlated=0.75, covariance=0.50)
+
+            case 'correlated-75-75':
                 set1 = generator.mvn(samples, dimension,
                                      n_correlated=0.75, covariance=0.75)
                 set2 = generator.mvn(samples, dimension,
