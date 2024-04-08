@@ -1,6 +1,7 @@
 #!/usr/bin/env python3
 
 from multiprocessing import Pool
+from numbers import Number
 
 from psutil import cpu_count
 from tqdm import tqdm
@@ -23,6 +24,7 @@ class Runner(object):
         self.arguments = None
         self.handler = None
         self.nproc = None
+        self.length = None
 
         self.set_nproc(nproc)
 
@@ -68,7 +70,17 @@ class Runner(object):
         '''
         self.handler = handler
 
-    def run(self, function=None, arguments=None, handler=None, unpack=False):
+    def set_length(self, length):
+        '''Specify the number of arguments used as a reference value for tqdm.
+
+        It is useful in case of arguments passed as an iterator or a generator
+        that has unknown length until it is eventually traversed (which is not
+        effective in case of long collections).
+        '''
+        self.length = length
+
+    def run(self, function=None, arguments=None,
+            handler=None, unpack=False, length=None):
         '''Main runner method – creates a pool of processes.
 
         Optionally, if arguments is a collection of collections, such as
@@ -81,6 +93,8 @@ class Runner(object):
             self.set_arguments(arguments)
         if handler:
             self.set_handler(handler)
+        if length:
+            self.set_length(length)
 
         if not self.function:
             raise ValueError('Function to run must be provided')
@@ -107,6 +121,8 @@ class Runner(object):
         '''The helper function to process the main function calls results.'''
         if hasattr(self.arguments, '__len__'):
             total = len(self.arguments)
+        elif isinstance(self.length, Number):
+            total = self.length
         else:
             total = None
 

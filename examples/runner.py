@@ -1,5 +1,6 @@
 #!/usr/bin/env python3
 
+import itertools
 from time import sleep
 
 from openset.utils.runner import Runner
@@ -21,28 +22,21 @@ def display(result):
 
 
 def main():
-    arguments = (
-        (2, 6),
-        (2, 7),
-        (2, 8),
-        (3, 9),
-        (3, 6),
-        (3, 7),
-        (4, 8),
-        (4, 9),
-        (4, 6),
-        (5, 7),
-        (5, 8),
-        (5, 9),
-    )
+    args1 = (1, 2, 3, 4)
+    args2 = (5, 6, 7)
+    arguments = itertools.product(args1, args2)
 
     runner = Runner(4)
     runner.run(multiply_v1, arguments, display, unpack=False)
+
+    arguments = itertools.product(args1, args2)
+    total = len(args1) * len(args2)
 
     runner = Runner(4)
     runner.set_function(multiply_v2)
     runner.set_arguments(arguments)
     runner.set_handler(display)
+    runner.set_length(total)
     runner.run(unpack=True)
 
 

@@ -106,6 +106,29 @@ class TestRunner(TestCase):
         expected = function
         self.assertEqual(actual, expected)
 
+    @patch('openset.utils.runner.tqdm')
+    @patch('openset.utils.runner.Pool')
+    def test_run_with_length(self, mock_pool, mock_tqdm):
+        mock_pool_instance = mock_pool.return_value.__enter__.return_value
+        mock_pool_instance.imap_unordered.return_value = (1, 4, 9, 16)
+        mock_tqdm.return_value = (1, 4, 9, 16)
+
+        runner = Runner()
+
+        function = MagicMock()
+        handler = MagicMock()
+        arguments = (1, 2, 3, 4)
+        iterator = iter(arguments)
+
+        runner.run(function, iterator, handler, length=len(arguments))
+
+        mock_pool_instance.imap_unordered.assert_called_once_with(
+            func=function,
+            iterable=iterator
+        )
+        mock_tqdm.assert_called_once_with((1, 4, 9, 16), total=4)
+        self.assertEqual(handler.call_count, 4)
+
     def test_run_without_function(self):
         runner = Runner()
 
@@ -132,6 +155,12 @@ class TestRunner(TestCase):
 
         with self.assertRaises(TypeError):
             runner.set_arguments(42)
+
+    def test_set_length(self):
+        runner = Runner()
+
+        runner.set_length(1234)
+        self.assertEqual(runner.length, 1234)
 
     def test_starmap(self):
         runner = Runner(4)
