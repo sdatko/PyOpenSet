@@ -58,7 +58,7 @@ class TestBoundingBoxes(TestCase):
 
         mock_setup_db.assert_called_once()
 
-    @patch('openset.experiments.overlapping.db_filename', ':memory:')
+    @patch('openset.experiments.overlapping.BoundingBoxes.db_file', ':memory:')
     @patch.object(BoundingBoxes, '_get')
     def test_cache(self, mock_get):
         expected = (1.0, 2.0, 3.0, 4.0)  # dummy values

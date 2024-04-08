@@ -60,7 +60,7 @@ class TestCorrelations(TestCase):
 
         mock_setup_db.assert_called_once()
 
-    @patch('openset.experiments.correlations.db_filename', ':memory:')
+    @patch('openset.experiments.correlations.Correlations.db_file', ':memory:')
     @patch.object(Correlations, '_get')
     def test_cache(self, mock_get):
         expected = ([1], [2], [3], 4.0, 5.0)  # dummy values

@@ -60,7 +60,7 @@ class TestGenerated(TestCase):
 
         mock_setup_db.assert_called_once()
 
-    @patch('openset.experiments.distributions.db_filename', ':memory:')
+    @patch('openset.experiments.distributions.Generated.db_file', ':memory:')
     @patch.object(Generated, '_get')
     def test_cache(self, mock_get):
         expected = ([1], [2], [3], 4.0, 5.0)  # dummy values

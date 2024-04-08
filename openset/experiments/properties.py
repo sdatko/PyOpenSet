@@ -11,9 +11,6 @@ from openset.data.generator import ClusterGenerator
 from openset.experiments.base import BaseExperiment
 
 
-db_filename = os.path.join(os.getcwd(), 'properties.sqlite')
-
-
 class MVNEstimation(BaseExperiment):
     '''Generate a data cluster and attempt to estimate distribution properties.
 
@@ -24,6 +21,7 @@ class MVNEstimation(BaseExperiment):
     '''
 
     db = orm.Database()
+    db_file = os.path.join(os.getcwd(), 'properties.sqlite')
 
     class Cache(db.Entity):
         _table_ = __qualname__
@@ -49,7 +47,7 @@ class MVNEstimation(BaseExperiment):
     def setup_db(cls):
         try:
             cls.db.bind(provider='sqlite',
-                        filename=db_filename,
+                        filename=cls.db_file,
                         create_db=True)
             cls.db.generate_mapping(create_tables=True)
         except orm.core.BindingError as e:

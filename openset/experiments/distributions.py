@@ -11,8 +11,6 @@ from openset.experiments.base import BaseExperiment
 from openset.utils.stats import percentiles
 
 
-db_filename = os.path.join(os.getcwd(), 'distributions.sqlite')
-
 TESTING_SET_SIZE = 1000
 
 
@@ -31,6 +29,7 @@ class Generated(BaseExperiment):
     '''
 
     db = orm.Database()
+    db_file = os.path.join(os.getcwd(), 'distributions.sqlite')
 
     class Cache(db.Entity):
         _table_ = __qualname__
@@ -59,7 +58,7 @@ class Generated(BaseExperiment):
     def setup_db(cls):
         try:
             cls.db.bind(provider='sqlite',
-                        filename=db_filename,
+                        filename=cls.db_file,
                         create_db=True)
             cls.db.generate_mapping(create_tables=True)
         except orm.core.BindingError as e:

@@ -60,7 +60,7 @@ class TestVariances(TestCase):
 
         mock_setup_db.assert_called_once()
 
-    @patch('openset.experiments.variances.db_filename', ':memory:')
+    @patch('openset.experiments.variances.Variances.db_file', ':memory:')
     @patch.object(Variances, '_get')
     def test_cache(self, mock_get):
         expected = ([1], [2], [3], 4.0, 5.0)  # dummy values
