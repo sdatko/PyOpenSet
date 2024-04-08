@@ -113,6 +113,22 @@ class TestFastAngleBasedOutlierFactor(TestCase):
         ])
         np.testing.assert_almost_equal(actual, expected)
 
+    def test_small_dataset(self):
+        X = np.array([[0, 0], [0, 1], [0, 2], [0, 3], [0, 4]])
+
+        model = FastAngleBasedOutlierFactor(10)
+        model.fit(X)
+
+        actual = model.score(np.array([
+            [0, 0],
+            [2, 2],
+        ]))
+        expected = np.array([
+            -0.0199171,
+            -0.003876,
+        ])
+        np.testing.assert_almost_equal(actual, expected)
+
 
 class TestFastAngleBasedOutlierFactor2(TestCase):
     def test_repr(self):
@@ -148,5 +164,21 @@ class TestFastAngleBasedOutlierFactor2(TestCase):
             -0.1333333,
             -0.3111111,
             -0.3111111,
+        ])
+        np.testing.assert_almost_equal(actual, expected)
+
+    def test_small_dataset(self):
+        X = np.array([[0, 0], [0, 1], [0, 2], [0, 3], [0, 4]])
+
+        model = FastAngleBasedOutlierFactor2(10)
+        model.fit(X)
+
+        actual = model.score(np.array([
+            [0, 0],
+            [2, 2],
+        ]))
+        expected = np.array([
+            0.0,
+            -0.094945,
         ])
         np.testing.assert_almost_equal(actual, expected)

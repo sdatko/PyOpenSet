@@ -88,19 +88,26 @@ class FastAngleBasedOutlierFactor(BaseModel):
     '''Approximated angle-based outlier factor distance.'''
 
     def __init__(self, n_neighbors=10):
-        self.n_neighbors = n_neighbors
+        self.n_neighbors_base = n_neighbors
 
     def __repr__(self):
-        return f'{self.__class__.__name__}({self.n_neighbors})'
+        return f'{self.__class__.__name__}({self.n_neighbors_base})'
 
     def fit(self, X: np.ndarray, y: np.ndarray | None = None) -> bool:
         super().fit(X, y)
         self.data = dict()
         self.tree = dict()
+        self.n_neighbors = dict()
 
         for label in self.labels:
             self.data[label] = self.X[self.y == label]
             self.tree[label] = KDTree(self.X[self.y == label])
+
+            self.n_neighbors[label] = self.n_neighbors_base
+
+            samples = len(self.data[label])
+            if samples < self.n_neighbors[label]:
+                self.n_neighbors[label] = samples
 
         return True
 
@@ -110,7 +117,7 @@ class FastAngleBasedOutlierFactor(BaseModel):
 
         for vec in X:
             neighbors = self.tree[y].query((vec, ),
-                                           k=self.n_neighbors,
+                                           k=self.n_neighbors[y],
                                            return_distance=False)[0]
 
             angles = []
@@ -138,19 +145,26 @@ class FastAngleBasedOutlierFactor2(BaseModel):
     '''Unweighted approximated angle-based outlier factor distance.'''
 
     def __init__(self, n_neighbors=10):
-        self.n_neighbors = n_neighbors
+        self.n_neighbors_base = n_neighbors
 
     def __repr__(self):
-        return f'{self.__class__.__name__}({self.n_neighbors})'
+        return f'{self.__class__.__name__}({self.n_neighbors_base})'
 
     def fit(self, X: np.ndarray, y: np.ndarray | None = None) -> bool:
         super().fit(X, y)
         self.data = dict()
         self.tree = dict()
+        self.n_neighbors = dict()
 
         for label in self.labels:
             self.data[label] = self.X[self.y == label]
             self.tree[label] = KDTree(self.X[self.y == label])
+
+            self.n_neighbors[label] = self.n_neighbors_base
+
+            samples = len(self.data[label])
+            if samples < self.n_neighbors[label]:
+                self.n_neighbors[label] = samples
 
         return True
 
@@ -160,7 +174,7 @@ class FastAngleBasedOutlierFactor2(BaseModel):
 
         for vec in X:
             neighbors = self.tree[y].query((vec, ),
-                                           k=self.n_neighbors,
+                                           k=self.n_neighbors[y],
                                            return_distance=False)[0]
 
             angles = []

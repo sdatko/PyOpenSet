@@ -20,7 +20,13 @@ class KNearestNeighbors(BaseModel):
         self.classifiers = dict()
 
         for label in self.labels:
-            self.classifiers[label] = scikit_kNN(n_neighbors=self.n_neighbors)
+            n_neighbors = self.n_neighbors
+
+            samples = len(self.X[self.y == label])
+            if samples < n_neighbors:
+                n_neighbors = samples
+
+            self.classifiers[label] = scikit_kNN(n_neighbors=n_neighbors)
             self.classifiers[label].fit(self.X[self.y == label])
 
         return True

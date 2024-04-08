@@ -58,3 +58,19 @@ class TestLocalOutlierFactor(TestCase):
             1.0577083,
         ])
         np.testing.assert_almost_equal(actual, expected)
+
+    def test_small_dataset(self):
+        X = np.array([[0, 0], [0, 1], [0, 2], [0, 3], [0, 4]])
+
+        model = LocalOutlierFactor()
+        model.fit(X)
+
+        actual = model.score(np.array([
+            [0, 0],
+            [2, 2],
+        ]))
+        expected = np.array([
+            0.9258242,
+            0.9258242,
+        ])
+        np.testing.assert_almost_equal(actual, expected)

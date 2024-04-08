@@ -58,3 +58,19 @@ class TestKNearestNeighbors(TestCase):
             2.1527336,
         ])
         np.testing.assert_almost_equal(actual, expected)
+
+    def test_small_dataset(self):
+        X = np.array([[0, 0], [0, 1], [0, 2], [0, 3], [0, 4]])
+
+        model = KNearestNeighbors()
+        model.fit(X)
+
+        actual = model.score(np.array([
+            [0, 0],
+            [2, 2],
+        ]))
+        expected = np.array([
+            2.0,
+            2.425798,
+        ])
+        np.testing.assert_almost_equal(actual, expected)
